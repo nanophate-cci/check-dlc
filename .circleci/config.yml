@@ -1,0 +1,38 @@
+jobs:
+  build:
+    docker:
+      - image: cimg/base:stable
+    steps:
+    - checkout
+    - setup_remote_docker:
+        docker_layer_caching: true
+    - run:
+        name: Check Docker settings
+        command: |
+          docker version
+          docker buildx version
+    - run:
+        name: Create and set up Dockerfile
+        command: |
+          dockerfile=Dockerfile
+          echo "FROM alpine:latest" > $dockerfile
+          echo "RUN mkdir momo" >> $dockerfile
+          echo "RUN echo hello" >> $dockerfile
+          echo "RUN apk update && apk add bash vim openssl ruby" >> $dockerfile
+    - run:
+        name: Create Docker buildx builder
+        command: |
+          docker buildx create --use --name DLC_builder
+    - run:
+        name: Setup Docker buildx
+        command: |
+          docker buildx ls
+    - run:
+        name: Docker buildx with local cache
+        command: |
+          docker buildx build --tag buildx-test -f Dockerfile
+    - run:
+        name: Docker buildx with local cache
+        command: |
+          docker image ls
+
