@@ -26,7 +26,7 @@ jobs:
     - run:
         name: Create Docker buildx builder
         command: |
-          docker buildx create --use cci --name DLC_builder
+          docker buildx create --name DLC_builder
     - run:
         name: Setup Docker buildx
         command: |
