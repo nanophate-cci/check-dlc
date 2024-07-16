@@ -7,6 +7,10 @@ jobs:
     - setup_remote_docker:
         docker_layer_caching: true
     - run:
+        name: Docker list image
+        command: |
+          docker image ls
+    - run:
         name: Check Docker settings
         command: |
           docker version
@@ -32,7 +36,7 @@ jobs:
         command: |
           docker buildx build --tag buildx-test -f Dockerfile .
     - run:
-        name: Docker buildx with local cache
+        name: Docker list image
         command: |
           docker image ls
 
